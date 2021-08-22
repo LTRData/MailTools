@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "netcore50": {
+      "bin": {
+        "assembly": "../../lib/netcore50/System.IO.FileSystem.dll"
+      },
+      "dependencies": {
+        "System.IO": "1.0.0-*",
+        "System.Runtime": "1.0.0-*",
+        "System.Threading.Tasks": "1.0.0-*"
+      }
+    }
+  }
+}
