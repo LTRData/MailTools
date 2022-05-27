@@ -22,7 +22,7 @@ namespace SMTPSend
 
             try
             {
-                encoding = Encoding.GetEncoding(1252);
+                encoding = Encoding.GetEncoding(0);
             }
             catch
             {

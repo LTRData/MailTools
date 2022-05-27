@@ -107,7 +107,7 @@ namespace POP3Recv
             {
             }
 
-            var encoding = Encoding.GetEncoding(1252);
+            var encoding = Encoding.GetEncoding(0);
 
             string server = null;
             int? port = null;

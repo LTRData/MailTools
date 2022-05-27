@@ -12,9 +12,9 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <LangVersion Condition="'$(MSBuildProjectExtension)' == '.csproj'">9.0</LangVersion>
-    <OptionStrict Condition="'$(MSBuildProjectExtension)' == '.vbproj'">On</OptionStrict>
+    <LangVersion>Latest</LangVersion>
     <DelaySign>false</DelaySign>
+	<RollForward>LatestMajor</RollForward>
   </PropertyGroup>
 
 </Project>
