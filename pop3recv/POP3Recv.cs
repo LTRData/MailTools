@@ -11,10 +11,6 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
-#if NETSTANDARD1_3 || NETCOREAPP1_0
-using Trace = System.Diagnostics.Debug;
-#endif
-
 namespace POP3Recv;
 
 public static class POP3Recv
@@ -69,7 +65,7 @@ public static class POP3Recv
 
         try
         {
-            var asm = typeof(POP3Recv).GetTypeInfo().Assembly.GetName();
+            var asm = typeof(POP3Recv).Assembly.GetName();
             Console.WriteLine(asm.Name + " ver " + asm.Version.Major.ToString() + "." + asm.Version.Minor.ToString("000"));
             Console.WriteLine();
         }
@@ -217,7 +213,7 @@ public static class POP3Recv
                 }
                 else
                 {
-                    Console.WriteLine("> " + s);
+                    Console.WriteLine($"> {s}");
                 }
 
                 send.WriteLine(s);

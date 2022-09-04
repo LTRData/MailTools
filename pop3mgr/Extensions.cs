@@ -14,37 +14,3 @@ namespace System.Runtime.CompilerServices
     }
 }
 #endif
-
-#if NETSTANDARD && !NETSTANDARD2_0_OR_GREATER
-
-namespace System.Net
-{
-    public class ProtocolViolationException : InvalidOperationException
-    {
-        public ProtocolViolationException() { }
-        public ProtocolViolationException(string message) : base(message) { }
-    }
-}
-#endif
-
-namespace POP3Mgr
-{
-    internal static class Extensions
-    {
-
-#if NETSTANDARD && !NETSTANDARD2_0_OR_GREATER
-
-        public static void AuthenticateAsClient(this SslStream ssl, string targetHost) => ssl.AuthenticateAsClientAsync(targetHost).Wait();
-
-        public static void Close(this Socket socket) => socket.Dispose();
-
-#endif
-
-#if NETFRAMEWORK
-
-        public static Type GetTypeInfo(this Type type) => type;
-
-#endif
-
-    }
-}

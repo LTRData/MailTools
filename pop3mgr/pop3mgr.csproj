@@ -2,29 +2,10 @@
 
   <!-- Package related stuff -->
   <PropertyGroup>
-    <TargetFrameworks>net6.0;netstandard1.3;net40;net20</TargetFrameworks>
+    <TargetFrameworks>net6.0;netstandard2.0;net40;net20</TargetFrameworks>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Deterministic>false</Deterministic>
     <DefineConstants>TRACE;HAS_INTEROP_SERVICES</DefineConstants>
-  </PropertyGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
-    <PackageReference Include="System.Net.NameResolution">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Net.Security">
-      <Version>4.3.2</Version>
-    </PackageReference>
-    <PackageReference Include="System.Threading.Thread">
-      <Version>4.3.0</Version>
-    </PackageReference>
-  </ItemGroup>
-  
-  <PropertyGroup Label="Globals">
-    <SccProjectName></SccProjectName>
-    <SccProvider></SccProvider>
-    <SccAuxPath></SccAuxPath>
-    <SccLocalPath></SccLocalPath>
   </PropertyGroup>
 
   <!-- Assembly stuff -->

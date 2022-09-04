@@ -12,10 +12,6 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 
-#if NETSTANDARD1_3 || NETCOREAPP1_0
-using Trace = System.Diagnostics.Debug;
-#endif
-
 namespace POP3Mgr;
 
 public static class POP3Mgr
@@ -155,7 +151,7 @@ public static class POP3Mgr
 
         try
         {
-            var asm = typeof(POP3Mgr).GetTypeInfo().Assembly.GetName();
+            var asm = typeof(POP3Mgr).Assembly.GetName();
             Console.WriteLine($"{asm.Name} ver {asm.Version.Major}.{asm.Version.Minor:000}");
             Console.WriteLine();
         }

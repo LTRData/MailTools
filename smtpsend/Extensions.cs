@@ -13,9 +13,9 @@ namespace SMTPSend;
 
 public static partial class Extensions
 {
-    public static AssemblyName AssemblyName { get; } = typeof(Extensions).GetTypeInfo().Assembly.GetName();
+    public static AssemblyName AssemblyName { get; } = typeof(Extensions).Assembly.GetName();
 
-    public static Version AssemblyVersion { get; } = typeof(Extensions).GetTypeInfo().Assembly.GetName().Version;
+    public static Version AssemblyVersion { get; } = typeof(Extensions).Assembly.GetName().Version;
 
     public static IEnumerable<string> EnumerateLinesUntil(this TextReader reader, Predicate<string> predicate)
     {
@@ -53,7 +53,7 @@ public static partial class Extensions
                 ex = ex.InnerException;
                 continue;
             }
-#if NET40 || NETSTANDARD || NETCOREAPP
+#if NET40_OR_GREATER || NETSTANDARD || NETCOREAPP
             else if (ex is AggregateException)
             {
                 var agex = ex as AggregateException;
@@ -88,7 +88,7 @@ public static partial class Extensions
 
     public static string JoinMessages(this Exception exception, string separator)
     {
-#if NET35
+#if NETFRAMEWORK && !NET40_OR_GREATER
         var messages = GetMessages(exception).ToArray();
 #else
         var messages = GetMessages(exception);
@@ -96,12 +96,6 @@ public static partial class Extensions
 
         return string.Join(separator, messages);
     }
-
-#if NETSTANDARD && !NETSTANDARD2_0_OR_GREATER
-
-    public static void AuthenticateAsClient(this SslStream ssl, string targetHost) => ssl.AuthenticateAsClientAsync(targetHost).Wait();
-
-#endif
 
     public static NetworkStream OpenTcpIpStream(string host, int port)
     {
@@ -151,18 +145,3 @@ public static partial class Extensions
     }
 
 }
-
-#if !NETSTANDARD && !NETCOREAPP
-
-public delegate T Func<T>();
-
-public static class IntrospectionExtensions
-{
-    public static Type GetTypeInfo(this Type t)
-    {
-        return t;
-    }
-}
-
-#endif
-
