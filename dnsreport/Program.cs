@@ -115,7 +115,7 @@ public static class Program
                     var dkim = row.Element("policy_evaluated")?.Element("dkim")?.Value;
                     var spf = row.Element("policy_evaluated")?.Element("spf")?.Value;
 
-                    var source = source_ip is null ? "<unknown>" : (await Dns.GetHostEntryAsync(source_ip).ConfigureAwait(false))?.HostName;
+                    var source = source_ip is null ? "<unknown>" : await GetDnsNameAsync(source_ip).ConfigureAwait(false);
 
                     Console.WriteLine($"Source IP: {source_ip} - Source host: {source} - Count: {count} - dkim: {dkim} - spf: {spf}");
                 }
@@ -136,5 +136,23 @@ public static class Program
         }
 
         return rc;
+    }
+
+    private static async Task<string> GetDnsNameAsync(string source_ip)
+    {
+        if (source_ip is null)
+        {
+            throw new ArgumentNullException(nameof(source_ip));
+        }
+
+        try
+        {
+            var entries = await Dns.GetHostEntryAsync(source_ip).ConfigureAwait(false);
+            return entries?.HostName;
+        }
+        catch (Exception ex)
+        {
+            return $"[{ex.GetBaseException().Message}]";
+        }
     }
 }
