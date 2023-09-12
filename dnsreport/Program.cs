@@ -38,12 +38,8 @@ public static class Program
                         {
                             using var zip = ZipFile.OpenRead(arg);
 
-                            var entry = zip.Entries.FirstOrDefault(entry => entry.Name.EndsWith(".xml", StringComparison.OrdinalIgnoreCase));
-
-                            if (entry is null)
-                            {
-                                throw new InvalidOperationException($"No xml documents in zip archive");
-                            }
+                            var entry = zip.Entries.FirstOrDefault(entry => entry.Name.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
+                                ?? throw new InvalidOperationException($"No xml documents in zip archive");
 
                             using var data = entry.Open();
 
@@ -70,6 +66,7 @@ public static class Program
                             break;
                         }
 
+#if NETCOREAPP
                     case ".br":
                         {
                             using var data = new BrotliStream(File.OpenRead(arg), CompressionMode.Decompress);
@@ -78,6 +75,7 @@ public static class Program
 
                             break;
                         }
+#endif
 
                     case ".xml":
                         {
