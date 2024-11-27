@@ -10,7 +10,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net35;net40;net6.0</TargetFrameworks>
+    <TargetFrameworks>net35;net40;net8.0;net9.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

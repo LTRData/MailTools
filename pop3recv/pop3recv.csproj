@@ -2,7 +2,7 @@
 
   <!-- Package related stuff -->
   <PropertyGroup>
-    <TargetFrameworks>net6.0;netstandard2.0;net40;net20</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0;netstandard2.0;net40;net20</TargetFrameworks>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Deterministic>false</Deterministic>
     <DefineConstants>TRACE;HAS_INTEROP_SERVICES</DefineConstants>
