@@ -12,6 +12,10 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable IDE0056 // Use index operator
+#pragma warning disable CA1865 // Use char overload
+
 namespace POP3Mgr;
 
 public static class POP3Mgr
@@ -56,17 +60,12 @@ public static class POP3Mgr
 
     public static bool? GetConsoleYNInput()
     {
-        switch (GetConsoleInputKey(new[] { 'y', 'n', 'Y', 'N' }))
+        return GetConsoleInputKey(['y', 'n', 'Y', 'N']) switch
         {
-            case 'y': case 'Y':
-                return true;
-
-            case 'n': case 'N':
-                return false;
-
-            default:
-                return null;
-        }
+            'y' or 'Y' => true,
+            'n' or 'N' => false,
+            _ => null,
+        };
     }
 
     public static char? GetConsoleInputKey(char[] validkeys)
@@ -443,11 +442,15 @@ public static class POP3Mgr
             {
                 apopChallenge += password;
 
+#if NET5_0_OR_GREATER
+                var apopResponse = Convert.ToHexString(MD5.HashData(encoding.GetBytes(apopChallenge))).ToLowerInvariant();
+#else
                 string apopResponse;
                 using (var md5 = MD5.Create())
                 {
                     apopResponse = BitConverter.ToString(md5.ComputeHash(encoding.GetBytes(apopChallenge))).Replace("-", null).ToLowerInvariant();
                 }
+#endif
 
                 response = SendCommand("APOP", username, apopResponse);
                 if (!response[response.Count - 1][0].Equals("+OK", StringComparison.OrdinalIgnoreCase))

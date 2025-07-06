@@ -7,10 +7,16 @@ using System.Net;
 using System.Net.Security;
 using System.Text;
 
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable IDE0056 // Use index operator
+#pragma warning disable CA1865 // Use char overload
+
 namespace SMTPSend;
 
 public static class SMTPSend
 {
+    private static readonly char[] separator = [','];
+
     public static int Main(params string[] args)
     {
         Console.WriteLine("SMTPSEND, by Olof Lagerkvist.");
@@ -66,7 +72,7 @@ public static class SMTPSend
             }
             else if (arg.StartsWith("/RCPT=", StringComparison.OrdinalIgnoreCase))
             {
-                recipents.AddRange(arg.Substring("/RCPT=".Length).Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+                recipents.AddRange(arg.Substring("/RCPT=".Length).Split(separator, StringSplitOptions.RemoveEmptyEntries));
             }
             else if (arg.Equals("/TLS", StringComparison.OrdinalIgnoreCase))
             {
@@ -382,12 +388,13 @@ smtpsend /SERVER=server [/PORT=portnumber] [/HELO=heloname] [/FROM=sender]
 
             if (verbose)
             {
-                Console.Error.WriteLine(ex.Source + ": " + ex.ToString());
+                Console.Error.WriteLine($"{ex.Source}: {ex}");
             }
             else
             {
                 Console.Error.WriteLine(ex.JoinMessages());
             }
+
             return -1;
         }
         finally

@@ -11,6 +11,10 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable IDE0056 // Use index operator
+#pragma warning disable CA1865 // Use char overload
+
 namespace POP3Recv;
 
 public static class POP3Recv
@@ -200,7 +204,7 @@ public static class POP3Recv
                 }
 
                 return messages;
-            };
+            }
 
             var send = new StreamWriter(pop, encoding);
 
@@ -219,7 +223,7 @@ public static class POP3Recv
                 send.WriteLine(s);
                 send.Flush();
                 return GetResponse();
-            };
+            }
 
             var response = GetResponse();
             var banner = response[response.Count - 1];
@@ -265,11 +269,15 @@ public static class POP3Recv
             {
                 apopChallenge += password;
 
+#if NET5_0_OR_GREATER
+                var apopResponse = Convert.ToHexString(MD5.HashData(encoding.GetBytes(apopChallenge))).ToLowerInvariant();
+#else
                 string apopResponse;
                 using (var md5 = MD5.Create())
                 {
                     apopResponse = BitConverter.ToString(md5.ComputeHash(encoding.GetBytes(apopChallenge))).Replace("-", null).ToLowerInvariant();
                 }
+#endif
 
                 response = SendCommand("APOP", username, apopResponse);
                 if (!response[response.Count - 1][0].Equals("+OK", StringComparison.OrdinalIgnoreCase))
@@ -348,11 +356,8 @@ public static class POP3Recv
 
                     for (; ; )
                     {
-                        var mailline = receive.ReadLine();
-                        if (mailline == null)
-                        {
-                            throw new ProtocolViolationException("Unexpected end of e-mail stream.");
-                        }
+                        var mailline = receive.ReadLine()
+                            ?? throw new ProtocolViolationException("Unexpected end of e-mail stream.");
 
                         if (mailline.Equals(".", StringComparison.Ordinal))
                         {

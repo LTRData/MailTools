@@ -106,18 +106,16 @@ public static partial class Extensions
             socket.Connect(host, port);
             return new NetworkStream(socket, ownsSocket: true);
         }
-        catch when (new Func<bool>(() =>
+        catch
         {
             try
             {
-                (socket as IDisposable).Dispose();
+                ((IDisposable)socket).Dispose();
             }
             catch
             {
             }
-            return false;
-        })())
-        {
+
             throw;
         }
     }
@@ -143,5 +141,4 @@ public static partial class Extensions
 
         return ssl;
     }
-
 }

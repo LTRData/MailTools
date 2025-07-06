@@ -138,10 +138,14 @@ public static class Program
 
     private static async Task<string> GetDnsNameAsync(string source_ip)
     {
+#if NET6_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(source_ip);
+#else
         if (source_ip is null)
         {
             throw new ArgumentNullException(nameof(source_ip));
         }
+#endif
 
         try
         {

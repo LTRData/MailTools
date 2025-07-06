@@ -4,9 +4,13 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Linq;
+using System.Runtime.Versioning;
 
 namespace emlextr;
 
+#if NET5_0_OR_GREATER
+[SupportedOSPlatform("windows")]
+#endif
 static class Program
 {
     static int Main(params string[] argsarray)
@@ -41,7 +45,7 @@ static class Program
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"File {arg} could not be parsed: {string.Join(" -> ", ex.EnumerateMessages().ToArray())}");
+                Console.Error.WriteLine($"File {arg} could not be parsed: {string.Join(" -> ", [.. ex.EnumerateMessages()])}");
             }
         }
 
@@ -107,7 +111,7 @@ static class Program
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error saving {attFile}: {string.Join(" -> ", ex.EnumerateMessages().ToArray())}");
+                    Console.WriteLine($"Error saving {attFile}: {string.Join(" -> ", [.. ex.EnumerateMessages()])}");
                 }
             }
         }
@@ -118,23 +122,23 @@ static class Program
 
         return count;
     }
+    internal static readonly char[] separator = [','];
 
     private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
     {
-        var file = args.Name.Split(new[] { ',' })[0] + ".dll";
+        var file = args.Name.Split(separator)[0] + ".dll";
 
-        using (var res = typeof(Program).Assembly.GetManifestResourceStream(typeof(Program), file))
+        using var res = typeof(Program).Assembly.GetManifestResourceStream(typeof(Program), file);
+        if (res == null)
         {
-            if (res == null)
-            {
-                return null;
-            }
-
-            var b = new byte[res.Length];
-            res.Read(b, 0, b.Length);
-
-            return Assembly.Load(b);
+            return null;
         }
+
+        var b = new byte[res.Length];
+
+        _ = res.Read(b, 0, b.Length);
+
+        return Assembly.Load(b);
     }
 
     private static IEnumerable<string> EnumerateMessages(this Exception ex)
