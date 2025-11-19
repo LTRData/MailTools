@@ -1,0 +1,19 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="Mixed Platforms" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Build.props" />
+  </Folder>
+  <Project Path="dnsreport/dnsreport.csproj" />
+  <Project Path="emlextr/emlextr.csproj" />
+  <Project Path="pop3mgr/pop3mgr.csproj">
+    <Build Solution="*|x86" Project="false" />
+  </Project>
+  <Project Path="pop3recv/pop3recv.csproj">
+    <Build Solution="Release|x86" Project="false" />
+  </Project>
+  <Project Path="smtpsend/smtpsend.csproj" />
+</Solution>

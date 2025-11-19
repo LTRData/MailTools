@@ -2,10 +2,21 @@
 
   <!-- Package related stuff -->
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0;netstandard2.0;net40;net20</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0;net10.0;netstandard2.0;net40;net20</TargetFrameworks>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Deterministic>false</Deterministic>
     <DefineConstants>TRACE;HAS_INTEROP_SERVICES</DefineConstants>
+
+	<AssemblyTitle>pop3mgr</AssemblyTitle>
+	<AssemblyDescription></AssemblyDescription>
+	<AssemblyConfiguration></AssemblyConfiguration>
+	<AssemblyCompany></AssemblyCompany>
+	<AssemblyProduct>pop3mgr</AssemblyProduct>
+	<AssemblyCopyright>Copyright ©  2014</AssemblyCopyright>
+	<AssemblyTrademark></AssemblyTrademark>
+	<AssemblyCulture></AssemblyCulture>
+	<AssemblyVersion>2.0.0.0</AssemblyVersion>
+	<AssemblyFileVersion>2.0.0.0</AssemblyFileVersion>
   </PropertyGroup>
 
   <!-- Assembly stuff -->
