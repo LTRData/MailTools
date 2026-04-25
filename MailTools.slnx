@@ -9,6 +9,7 @@
   </Folder>
   <Project Path="dnsreport/dnsreport.csproj" />
   <Project Path="emlextr/emlextr.csproj" />
+  <Project Path="mailout/mailout.csproj" />
   <Project Path="pop3mgr/pop3mgr.csproj">
     <Build Solution="*|x86" Project="false" />
   </Project>
